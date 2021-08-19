@@ -1,4 +1,5 @@
 import * as React from "react"
+import styled from "styled-components"
 import { Link, graphql } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 
@@ -11,6 +12,9 @@ export const query = graphql`
       edges {
         node {
           id
+          fields {
+            slug
+          }
           frontmatter {
             date
             description
@@ -25,6 +29,15 @@ export const query = graphql`
   }
 `
 
+const BlogLink = styled(Link)`
+  text-decoration: none;
+`
+
+const BlogTitle = styled.h3`
+  color: blue;
+  margin-bottom: 10px;
+`
+
 export default ({ data }) => (
   <Layout>
     <Seo title="Home" />
@@ -33,7 +46,11 @@ export default ({ data }) => (
       <h4>{data.allMarkdownRemark.totalCount}</h4>
       {data.allMarkdownRemark.edges.map(({ node }) => {
         return <div key={node.id}>
-          <span>{node.frontmatter.title} - {node.frontmatter.date}</span>
+          <BlogLink to={node.fields.slug}>
+            <BlogTitle>
+              {node.frontmatter.title} - {node.frontmatter.date}
+            </BlogTitle>
+          </BlogLink>
           <p>{node.excerpt}</p>
         </div>
       })}
