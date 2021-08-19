@@ -7,7 +7,7 @@ import Seo from "../components/seo"
 
 export const query = graphql`
   query MyQuery {
-    allMarkdownRemark {
+    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
       edges {
         node {
           id
